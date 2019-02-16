@@ -6,4 +6,8 @@
     <RootNamespace>async_test</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
 </Project>

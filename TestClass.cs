@@ -9,18 +9,6 @@ namespace AsyncTest
         {
         }
 
-        public int DoWork1(int num1, int num2)
-        {
-            return CalcSum(num1, num2);
-        }
-
-        public int DoWork2(int num1, int num2)
-        {
-            Task<int> task = CalcSumAsync(num1, num2);
-            task.Wait();
-            return task.Result;
-        }
-
         public int CalcNumber(int num)
         {
             Thread.Sleep(1500);
@@ -28,10 +16,10 @@ namespace AsyncTest
             return num;
         }
 
-        public async Task<int> CalcNumberAsync(int num)
+        public Task<int> CalcNumberAsync(int num)
         {
             Task<int> task = Task.Run(() => CalcNumber(num));
-            return await task;
+            return task;
         }
 
         public int CalcSum(int num1, int num2)
