@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,10 +10,15 @@ namespace AsyncTest
     {
         public static async Task Main()
         {
-            Task task = BasicTestAsync();
-            BasicTest();
+            await WhenAllTest();
+        }
 
-            await task;
+        public static Task WhenAllTest()
+        {
+            IEnumerable<Task> tasks = Enumerable.Range(0, 128).Select(i => Task.Delay(1000).ContinueWith(t => Console.Write($"{i} ")));
+
+            Task masterTask = Task.WhenAll(tasks).ContinueWith(t => Console.WriteLine());
+            return masterTask;
         }
 
         public static void FileTest(ICsvReader csvReader)
