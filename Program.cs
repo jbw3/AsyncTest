@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AsyncTest
@@ -10,7 +11,32 @@ namespace AsyncTest
     {
         public static async Task Main()
         {
-            await WhenAllTest();
+            await AsyncEnumerableTest();
+        }
+
+        public static async Task AsyncEnumerableTest()
+        {
+            IAsyncEnumerable<int> e = GetAsyncEnumerable().Select(x => x * 10);
+            int count = 0;
+            await foreach (int i in e)
+            {
+                Console.WriteLine(i);
+
+                if (count == 0)
+                {
+                    Thread.Sleep(2000);
+                }
+                ++count;
+            }
+        }
+
+        public static async IAsyncEnumerable<int> GetAsyncEnumerable()
+        {
+            for (int i = 0; i < 10; ++i)
+            {
+                await Task.Delay(500);
+                yield return i;
+            }
         }
 
         public static Task WhenAllTest()
